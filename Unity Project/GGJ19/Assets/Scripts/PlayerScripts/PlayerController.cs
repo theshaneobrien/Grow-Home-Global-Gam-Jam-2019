@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
 
 	private void Update()
 	{
+		CheckDistance();
 		if (isControllable)
 		{
 			GetInputs();
@@ -229,7 +230,6 @@ public class PlayerController : MonoBehaviour
 			targetForce = new Vector2(targetSpeed, playerRigidbody.velocity.y + targetJump);
 			playerRigidbody.velocity = targetForce;
 			currentSpeed = Mathf.Abs(playerRigidbody.velocity.x);
-			CheckDistance();
 
 			//CLARE
 			//Set the "" to whatever you named the parameter in the Animator. It should be a Float
@@ -242,12 +242,14 @@ public class PlayerController : MonoBehaviour
 
 		distanceFromNextCharacter = Vector2.Distance(this.transform.position, (Vector2)nextCharacter?.position);
 
-		if (distanceFromNextCharacter < 2)
+		if (distanceFromNextCharacter < 3f)
 		{
 			shouldFollow = false;
 		}
-
-		shouldFollow = true;
+		else
+		{
+			shouldFollow = true;
+		}
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
