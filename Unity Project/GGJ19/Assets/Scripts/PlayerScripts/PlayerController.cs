@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	private float jumpHeight = 3f;
 
+	private float absoluteHorizontalAxis;
 	private float horizontalAxis;
 
 	private bool isRunning = false;
@@ -49,45 +50,25 @@ public class PlayerController : MonoBehaviour
 	// Update is called once per frame
 	private void FixedUpdate()
 	{
-		horizontalAxis = Mathf.Abs(Input.GetAxisRaw("Horizontal"));
+		horizontalAxis = Input.GetAxisRaw("Horizontal");
+		absoluteHorizontalAxis = Mathf.Abs(horizontalAxis);
+
 		TranslatePlayer();
 		GetInputs();
 	}
 
 	private void GetInputs()
 	{
-		if (Input.GetKey(KeyCode.LeftShift))
-		{
-			Debug.Log("isRunning");
-			isRunning = true;
-		}
-		else
-		{
-			isRunning = false;
-		}
-
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
 			Debug.Log("isJumping");
 			Jump();
 		}
 
-		if (Input.GetKeyDown(KeyCode.LeftControl))
-		{
-			Debug.Log("isCrouching");
-			Crouch();
-		}
-
 		//If the left or right key is pressed and the shift key is not pressed
-		if (horizontalAxis >= 1 && !isRunning)
+		if (absoluteHorizontalAxis >= 1 && !isRunning)
 		{
-			Debug.Log("Walk");
 			Walk();
-		}
-		else if (horizontalAxis >= 1 && isRunning)
-		{
-			Debug.Log("Run");
-			Run();
 		}
 		else
 		{
@@ -98,7 +79,6 @@ public class PlayerController : MonoBehaviour
 	private void Idle()
 	{
 		targetSpeed = 0;
-		targetJump = 0;
 
 		//CLARE
 		//Set the "" to whatever you named the parameter in the Animator. It should be a Bool
@@ -111,14 +91,9 @@ public class PlayerController : MonoBehaviour
 		//CLARE
 		//Set the "" to whatever you named the parameter in the Animator. It should be a Float
 		playerAnimator.SetFloat("Speed", currentSpeed);
-	}
 
-	private void Run()
-	{
-		targetSpeed = runSpeed * (Input.GetAxis("Horizontal"));
-		//CLARE
-		//Set the "" to whatever you named the parameter in the Animator. It should be a Float
-		playerAnimator.SetFloat("", currentSpeed);
+		//Flips the character sprite based on the last received input
+		transform.rotation = Quaternion.Euler(0, horizontalAxis > 0 ? 180 : 0, 0);
 	}
 
 	private void Jump()
@@ -129,28 +104,10 @@ public class PlayerController : MonoBehaviour
 		playerAnimator.SetBool("", true);
 	}
 
-	private void Crouch()
-	{
-		isCrouching = !isCrouching;
-
-		if (isCrouching)
-		{
-			
-		}
-		else
-		{
-		}
-
-		//CLARE
-		//Set the "" to whatever you named the parameter in the Animator. It should be a Bool
-		playerAnimator.SetBool("", isCrouching);
-	}
-
 	private void TranslatePlayer()
 	{
 		targetForce = new Vector2(targetSpeed, playerRigidbody.velocity.y + targetJump);
 		playerRigidbody.velocity = targetForce;
 		currentSpeed = Mathf.Abs(playerRigidbody.velocity.x);
-        transform.rotation = Quaternion.Euler(0, -180 * Input.GetAxisRaw("Horizontal"), 0);
 	}
 }
