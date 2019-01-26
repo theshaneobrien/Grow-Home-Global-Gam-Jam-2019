@@ -184,7 +184,7 @@ public class PlayerController : MonoBehaviour
 
 		//CLARE
 		//Set the "" to whatever you named the parameter in the Animator. It should be a Float
-		playerAnimator.SetFloat("", playerRigidbody.velocity.y);
+		playerAnimator.SetFloat("Y Velocity", playerRigidbody.velocity.y);
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
@@ -195,7 +195,7 @@ public class PlayerController : MonoBehaviour
 
 			//CLARE
 			//Set the "" to whatever you named the parameter in the Animator. It should be a Bool
-			playerAnimator.SetBool("", isGrounded);
+			playerAnimator.SetBool("Is Grounded", isGrounded);
 			targetJump = 0;
 			Debug.Log("Hit Ground");
 		}
@@ -206,10 +206,11 @@ public class PlayerController : MonoBehaviour
 		Debug.Log("Test");
 		if (collision.gameObject.tag == "Ground")
 		{
-			//CLARE
-			//Set the "" to whatever you named the parameter in the Animator. It should be a Bool
-			playerAnimator.SetBool("", isGrounded);
-			isGrounded = false;
+            isGrounded = false;
+
+            //CLARE
+            //Set the "" to whatever you named the parameter in the Animator. It should be a Bool
+            playerAnimator.SetBool("Is Grounded", isGrounded);
 			targetJump = fallSpeed;
 		}
 	}
