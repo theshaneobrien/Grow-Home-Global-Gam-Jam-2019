@@ -23,9 +23,20 @@ public class CharacterState : MonoBehaviour
 
 	private void GetNextCharacter()
 	{
-		playerCharacters[currentPlayer].isCurrentlyControlled = false;
-		playerCharacters[currentPlayer+1].isCurrentlyControlled = true;
+		if (currentPlayer < 3)
+		{
+			currentPlayer++;
+			foreach (PlayerController player in playerCharacters)
+			{
 
+			}
+		}
+		else if (currentPlayer >= 3)
+		{
+			currentPlayer = 0;
+		}
+
+		
 	}
 
 	private void GetLastCharacter()

@@ -192,6 +192,10 @@ public class PlayerController : MonoBehaviour
 		if (collision.gameObject.tag == "Ground")
 		{
 			isGrounded = true;
+
+			//CLARE
+			//Set the "" to whatever you named the parameter in the Animator. It should be a Bool
+			playerAnimator.SetBool("", isGrounded);
 			targetJump = 0;
 			Debug.Log("Hit Ground");
 		}
@@ -202,6 +206,9 @@ public class PlayerController : MonoBehaviour
 		Debug.Log("Test");
 		if (collision.gameObject.tag == "Ground")
 		{
+			//CLARE
+			//Set the "" to whatever you named the parameter in the Animator. It should be a Bool
+			playerAnimator.SetBool("", isGrounded);
 			isGrounded = false;
 			targetJump = fallSpeed;
 		}
