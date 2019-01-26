@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class CharacterState : MonoBehaviour
 {
-	[SerializeField]
 	private int currentPlayer;
 	private int totalPlayers = 3;
+
+	[SerializeField]
 	private List<PlayerController> playerCharacters;
 
 	// Use this for initialization
@@ -18,25 +19,28 @@ public class CharacterState : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		
+		if (Input.GetKeyDown(KeyCode.Q))
+		{
+			GetNextCharacter();
+		}
 	}
 
 	private void GetNextCharacter()
 	{
-		if (currentPlayer < 3)
-		{
-			currentPlayer++;
-			foreach (PlayerController player in playerCharacters)
-			{
 
-			}
-		}
-		else if (currentPlayer >= 3)
+		currentPlayer++;
+		if (currentPlayer >= 3)
 		{
 			currentPlayer = 0;
 		}
-
-		
+		if (currentPlayer < 3)
+		{
+			foreach (PlayerController player in playerCharacters)
+			{
+				player.isCurrentlyControlled = false;
+			}
+			playerCharacters[currentPlayer].isCurrentlyControlled = true;
+		}
 	}
 
 	private void GetLastCharacter()
