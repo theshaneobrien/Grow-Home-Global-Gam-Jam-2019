@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
 	private int followDelay = 10;
 	private int frameCounter = 0;
+	public int followerOrder = 0;
 
 	private float absoluteHorizontalAxis;
 	private float horizontalAxis;
@@ -172,9 +173,6 @@ public class PlayerController : MonoBehaviour
 		if (isGrounded)
 		{
 			targetJump = jumpHeight;
-			//CLARE
-			//Set the "" to whatever you named the parameter in the Animator. It should be a Bool
-			playerAnimator.SetBool("", true);
 		}
 	}
 
@@ -183,6 +181,10 @@ public class PlayerController : MonoBehaviour
 		targetForce = new Vector2(targetSpeed, playerRigidbody.velocity.y + targetJump);
 		playerRigidbody.velocity = targetForce;
 		currentSpeed = Mathf.Abs(playerRigidbody.velocity.x);
+
+		//CLARE
+		//Set the "" to whatever you named the parameter in the Animator. It should be a Float
+		playerAnimator.SetFloat("", playerRigidbody.velocity.y);
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
