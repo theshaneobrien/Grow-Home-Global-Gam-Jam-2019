@@ -98,10 +98,13 @@ public class PlayerController : MonoBehaviour
 
 	private void Jump()
 	{
-		targetJump = jumpHeight;
-		//CLARE
-		//Set the "" to whatever you named the parameter in the Animator. It should be a Bool
-		playerAnimator.SetBool("", true);
+		if (isGrounded)
+		{
+			targetJump = jumpHeight;
+			//CLARE
+			//Set the "" to whatever you named the parameter in the Animator. It should be a Bool
+			playerAnimator.SetBool("", true);
+		}
 	}
 
 	private void TranslatePlayer()
@@ -109,5 +112,24 @@ public class PlayerController : MonoBehaviour
 		targetForce = new Vector2(targetSpeed, playerRigidbody.velocity.y + targetJump);
 		playerRigidbody.velocity = targetForce;
 		currentSpeed = Mathf.Abs(playerRigidbody.velocity.x);
+	}
+
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (collision.gameObject.tag == "Ground")
+		{
+			isGrounded = true;
+			Debug.Log("Hit Ground");
+		}
+	}
+
+	private void OnCollisionExit2D(Collision2D collision)
+	{
+		Debug.Log("Test");
+		if (collision.gameObject.tag == "Ground")
+		{
+			isGrounded = false;
+			targetJump = 0;
+		}
 	}
 }
