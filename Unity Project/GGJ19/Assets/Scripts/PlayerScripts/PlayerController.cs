@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	private float speedRamp = 2f;
 	[SerializeField]
-	private float jumpHeight = 3f;
+	private float jumpHeight = 30f;
 
 	private float absoluteHorizontalAxis;
 	private float horizontalAxis;
@@ -61,7 +61,6 @@ public class PlayerController : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			Debug.Log("isJumping");
 			Jump();
 		}
 
@@ -129,7 +128,7 @@ public class PlayerController : MonoBehaviour
 		if (collision.gameObject.tag == "Ground")
 		{
 			isGrounded = false;
-			targetJump = 0;
+			targetJump = -2;
 		}
 	}
 }
