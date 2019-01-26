@@ -12,25 +12,23 @@ public class PlayerController : MonoBehaviour
 
 	//Player Move Vars
 	[SerializeField]
-	private float walkSpeed = 4f;
-	[SerializeField]
-	private float runSpeed = 7f;
-	[SerializeField]
-	private float crouchSpeed = 2.5f;
+	private float walkSpeed = 6f;
 	private float currentSpeed = 0f;
 	private float targetSpeed = 0f;
 	private float targetJump = 0f;
 	[SerializeField]
-	private float speedRamp = 2f;
+	private float jumpHeight = 13f;
 	[SerializeField]
-	private float jumpHeight = 30f;
+	private float fallSpeed = -2f;
+
+	private int followDelay = 10;
+	private int frameCounter = 0;
 
 	private float absoluteHorizontalAxis;
 	private float horizontalAxis;
 
-	private bool isRunning = false;
 	private bool isGrounded = false;
-	private bool isCrouching = false;
+	public bool isCurrentlyControlled;
 
 	private Vector2 targetForce;
 
@@ -38,10 +36,13 @@ public class PlayerController : MonoBehaviour
 	private Rigidbody2D playerRigidbody;
 	private AudioSource playerAudio;
 
+	private List<string> controllerBuffer;
+
 
 	// Use this for initialization
 	private void Start()
 	{
+		controllerBuffer = new List<string>();
 		playerAnimator = this.gameObject.GetComponent<Animator>();
 		playerRigidbody = this.gameObject.GetComponent<Rigidbody2D>();
 		playerAudio = this.gameObject.GetComponent<AudioSource>();
@@ -54,24 +55,94 @@ public class PlayerController : MonoBehaviour
 		absoluteHorizontalAxis = Mathf.Abs(horizontalAxis);
 
 		TranslatePlayer();
+	}
+
+	private void Update()
+	{
 		GetInputs();
+		if (isCurrentlyControlled)
+		{
+			ProcessInputs();
+		}
+		else
+		{
+			ProcessInputsDelayed();
+		}
+
+		frameCounter++;
 	}
 
 	private void GetInputs()
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			Jump();
+			AddInputToBuffer("jump");
+			//Jump();
 		}
 
 		//If the left or right key is pressed and the shift key is not pressed
-		if (absoluteHorizontalAxis >= 1 && !isRunning)
+		if (horizontalAxis > 0)
 		{
-			Walk();
+			AddInputToBuffer("walkRight");
+			//Walk();
+		}
+		else if (horizontalAxis < 0)
+		{
+			AddInputToBuffer("walkLeft");
 		}
 		else
 		{
-			Idle();
+			AddInputToBuffer("idle");
+			//Idle();
+		}
+	}
+
+	private void AddInputToBuffer(string input)
+	{
+		controllerBuffer.Add(input);
+	}
+
+	private void ProcessInputs()
+	{
+		if (controllerBuffer.Count > 0)
+		{
+			switch (controllerBuffer[(int)frameCounter])
+			{
+				case "walkLeft":
+					Walk(-1f);
+					break;
+				case "walkRight":
+					Walk(1f);
+					break;
+				case "jump":
+					Jump();
+					break;
+				case "idle":
+					Idle();
+					break;
+			}
+		}
+	}
+
+	private void ProcessInputsDelayed()
+	{
+		if (controllerBuffer.Count > followDelay)
+		{
+			switch (controllerBuffer[frameCounter - followDelay])
+			{
+				case "walkLeft":
+					Walk(-1f);
+					break;
+				case "walkRight":
+					Walk(1f);
+					break;
+				case "jump":
+					Jump();
+					break;
+				case "idle":
+					Idle();
+					break;
+			}
 		}
 	}
 
@@ -84,9 +155,9 @@ public class PlayerController : MonoBehaviour
 		playerAnimator.SetFloat("Speed", currentSpeed);
 	}
 
-	private void Walk()
+	private void Walk(float direction)
 	{
-		targetSpeed = walkSpeed * (Input.GetAxis("Horizontal"));
+		targetSpeed = walkSpeed * direction;
 		//CLARE
 		//Set the "" to whatever you named the parameter in the Animator. It should be a Float
 		playerAnimator.SetFloat("Speed", currentSpeed);
@@ -97,6 +168,7 @@ public class PlayerController : MonoBehaviour
 
 	private void Jump()
 	{
+		Debug.Log("Jump");
 		if (isGrounded)
 		{
 			targetJump = jumpHeight;
@@ -118,6 +190,7 @@ public class PlayerController : MonoBehaviour
 		if (collision.gameObject.tag == "Ground")
 		{
 			isGrounded = true;
+			targetJump = 0;
 			Debug.Log("Hit Ground");
 		}
 	}
@@ -128,7 +201,7 @@ public class PlayerController : MonoBehaviour
 		if (collision.gameObject.tag == "Ground")
 		{
 			isGrounded = false;
-			targetJump = -2;
+			targetJump = fallSpeed;
 		}
 	}
 }
