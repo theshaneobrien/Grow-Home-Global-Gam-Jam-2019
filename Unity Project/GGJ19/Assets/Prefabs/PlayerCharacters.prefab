@@ -177,7 +177,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1127697251531100}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.89, y: 6.56, z: 0.16500376}
+  m_LocalPosition: {x: -2, y: -1.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4446716430634880}
@@ -204,7 +204,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1234604096140316}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.9178338, y: -12.283131, z: -0.16500376}
+  m_LocalPosition: {x: 2.9178338, y: 0, z: -0.16500376}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4049548706163488}
@@ -212,7 +212,7 @@ Transform:
   - {fileID: 4873091868104436}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!4 &4446716430634880
 Transform:
   m_ObjectHideFlags: 1
@@ -233,7 +233,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1581824168406038}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.72, y: 8.4, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4236280247292140}
@@ -261,7 +261,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1481396445890666}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -16.8, y: 6.56, z: 0.16500376}
+  m_LocalPosition: {x: 2, y: -1.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4849828742323538}
@@ -801,8 +801,9 @@ MonoBehaviour:
   walkSpeed: 4
   jumpHeight: 13
   fallSpeed: -2
-  followerOrder: 1
+  followerOrder: 0
   isCurrentlyControlled: 1
+  isControllable: 1
 --- !u!114 &114463167679266374
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -817,8 +818,9 @@ MonoBehaviour:
   walkSpeed: 4
   jumpHeight: 13
   fallSpeed: -2
-  followerOrder: 3
+  followerOrder: 30
   isCurrentlyControlled: 0
+  isControllable: 1
 --- !u!114 &114873364229621788
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -833,8 +835,9 @@ MonoBehaviour:
   walkSpeed: 4
   jumpHeight: 13
   fallSpeed: -2
-  followerOrder: 2
+  followerOrder: 15
   isCurrentlyControlled: 0
+  isControllable: 1
 --- !u!114 &114965917078999980
 MonoBehaviour:
   m_ObjectHideFlags: 1
