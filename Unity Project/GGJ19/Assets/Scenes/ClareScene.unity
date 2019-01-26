@@ -253,6 +253,26 @@ Prefab:
       propertyPath: m_Name
       value: SproutBody
       objectReference: {fileID: 0}
+    - target: {fileID: 212763894650106682, guid: 528c4da8dc52f8f49a5ac0857157f0fe,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 212796884714757320, guid: 528c4da8dc52f8f49a5ac0857157f0fe,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 0.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 212796884714757320, guid: 528c4da8dc52f8f49a5ac0857157f0fe,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 0.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 212796884714757320, guid: 528c4da8dc52f8f49a5ac0857157f0fe,
+        type: 2}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 528c4da8dc52f8f49a5ac0857157f0fe, type: 2}
   m_IsPrefabAsset: 0
