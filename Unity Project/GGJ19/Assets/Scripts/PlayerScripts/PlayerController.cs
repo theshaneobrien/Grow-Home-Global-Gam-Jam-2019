@@ -22,7 +22,6 @@ public class PlayerController : MonoBehaviour
 	private float fallSpeed = -2f;
 
 	private int followDelay = 30;
-	private int frameCounter = 0;
 	public int followerOrder = 0;
 
 	private float absoluteHorizontalAxis;
@@ -30,19 +29,25 @@ public class PlayerController : MonoBehaviour
 
 	private bool isGrounded = false;
 	public bool isCurrentlyControlled;
+	public bool isControllable = true;
 
 	private Vector2 targetForce;
 
 	private Animator playerAnimator;
 	private Rigidbody2D playerRigidbody;
 	private AudioSource playerAudio;
+	private CircleCollider2D groundCollider;
+	private CharacterState parentController;
 
 	private List<string> controllerBuffer;
 	private int controllerBufferSize = 90;
 
+
 	// Use this for initialization
 	private void Start()
 	{
+		parentController = this.gameObject.GetComponentInParent<CharacterState>();
+		groundCollider = this.gameObject.GetComponent<CircleCollider2D>();
 		controllerBuffer = new List<string>();
 		playerAnimator = this.gameObject.GetComponent<Animator>();
 		playerRigidbody = this.gameObject.GetComponent<Rigidbody2D>();
@@ -60,18 +65,20 @@ public class PlayerController : MonoBehaviour
 
 	private void Update()
 	{
-		GetInputs();
-		if (isCurrentlyControlled)
+		if (isControllable)
 		{
-			ProcessInputs();
-		}
-		else
-		{
-			ProcessInputsDelayed();
+			GetInputs();
+			if (isCurrentlyControlled)
+			{
+				ProcessInputs();
+			}
+			else
+			{
+				ProcessInputsDelayed();
+			}
 		}
 
-		frameCounter++;
-		ManageBuffer();
+		//ManageBuffer();
 	}
 
 	private void GetInputs()
@@ -79,12 +86,14 @@ public class PlayerController : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
 			AddInputToBuffer("jump");
-			//Jump();
+		}
+		if (Input.GetKeyDown(KeyCode.LeftControl))
+		{
+			Plant();
 		}
 		else if (horizontalAxis > 0)
 		{
 			AddInputToBuffer("walkRight");
-			//Walk();
 		}
 		else if (horizontalAxis < 0)
 		{
@@ -93,31 +102,24 @@ public class PlayerController : MonoBehaviour
 		else
 		{
 			AddInputToBuffer("idle");
-			//Idle();
-		}
-	}
-
-	public void ManageBuffer()
-	{
-		if (controllerBuffer.Count >= controllerBufferSize)
-		{
-			controllerBuffer.RemoveAt(0);
 		}
 	}
 
 	private void AddInputToBuffer(string input)
 	{
 
-		//ManageBuffer();
 		controllerBuffer.Add(input);
+		if (controllerBuffer.Count >= controllerBufferSize)
+		{
+			controllerBuffer.RemoveAt(0);
+		}
 	}
 
 	private void ProcessInputs()
 	{
-		if (controllerBuffer.Count > 0)
+		if (controllerBuffer.Count > 1)
 		{
-			Debug.Log("ControllerBuffer Length : " + controllerBuffer.Count);
-			switch (controllerBuffer[controllerBuffer.Count-1])
+			switch (controllerBuffer[controllerBuffer.Count - 2])
 			{
 				case "walkLeft":
 					Walk(-1f);
@@ -132,6 +134,11 @@ public class PlayerController : MonoBehaviour
 					Idle();
 					break;
 			}
+		}
+
+		if (controllerBuffer.Count >= controllerBufferSize)
+		{
+			controllerBuffer.RemoveAt(0);
 		}
 	}
 
@@ -154,6 +161,10 @@ public class PlayerController : MonoBehaviour
 					Idle();
 					break;
 			}
+		}
+		if (controllerBuffer.Count >= controllerBufferSize)
+		{
+			controllerBuffer.RemoveAt(0);
 		}
 	}
 
@@ -185,15 +196,36 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+	private void Plant()
+	{
+		if (isGrounded && isCurrentlyControlled)
+		{
+			targetSpeed = 0;
+			isControllable = false;
+			groundCollider.enabled = false;
+			parentController.GetLastCharacter();
+			parentController.MoveToPlantList(this);
+			//CLARE
+			//Set the "" to whatever you named the parameter in the Animator. It should be a Bool
+			playerAnimator.SetBool("", isControllable);
+
+			//Activate Ability
+
+		}
+	}
+
 	private void TranslatePlayer()
 	{
-		targetForce = new Vector2(targetSpeed, playerRigidbody.velocity.y + targetJump);
-		playerRigidbody.velocity = targetForce;
-		currentSpeed = Mathf.Abs(playerRigidbody.velocity.x);
+		if (isControllable)
+		{
+			targetForce = new Vector2(targetSpeed, playerRigidbody.velocity.y + targetJump);
+			playerRigidbody.velocity = targetForce;
+			currentSpeed = Mathf.Abs(playerRigidbody.velocity.x);
 
-		//CLARE
-		//Set the "" to whatever you named the parameter in the Animator. It should be a Float
-		playerAnimator.SetFloat("Y Velocity", playerRigidbody.velocity.y);
+			//CLARE
+			//Set the "" to whatever you named the parameter in the Animator. It should be a Float
+			playerAnimator.SetFloat("Y Velocity", playerRigidbody.velocity.y);
+		}
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)

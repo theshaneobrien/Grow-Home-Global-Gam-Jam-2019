@@ -9,11 +9,12 @@ public class CharacterState : MonoBehaviour
 
 	[SerializeField]
 	private List<PlayerController> playerCharacters;
+	private List<PlayerController> plantedCharacters;
 
 	// Use this for initialization
 	void Start()
 	{
-
+		plantedCharacters = new List<PlayerController>();
 		Application.targetFrameRate = 60;
 	}
 
@@ -27,39 +28,70 @@ public class CharacterState : MonoBehaviour
 
 		if (Input.GetKeyDown(KeyCode.E))
 		{
-			GetLastCharacter();
+			GetNextCharacter();
 		}
 	}
 
-	private void GetNextCharacter()
+	public void GetLastCharacter()
 	{
 		tempArray = new List<PlayerController>(new PlayerController[3]);
-		tempArray[0] = playerCharacters[1];
-		tempArray[1] = playerCharacters[2];
-		tempArray[2] = playerCharacters[0];
+		for (int i = 0; i < playerCharacters.Count; i++)
+		{
+			if (i < playerCharacters.Count - 1)
+			{
+				tempArray[i] = playerCharacters[i + 1];
+			}
+			else
+			{
+				tempArray[i] = playerCharacters[0];
+			}
+		}
 		playerCharacters = tempArray;
 
-		rearrangeCharacterOrder();
+		RearrangeCharacterOrder();
 	}
 
-	private void GetLastCharacter()
+	public void GetNextCharacter()
 	{
 		tempArray = new List<PlayerController>(new PlayerController[3]);
-		tempArray[0] = playerCharacters[2];
-		tempArray[1] = playerCharacters[0];
-		tempArray[2] = playerCharacters[1];
+		for (int i = 0; i < playerCharacters.Count; i++)
+		{
+			if (i < 1)
+			{
+				tempArray[i] = playerCharacters[playerCharacters.Count - 1];
+			}
+			else
+			{
+				tempArray[i] = playerCharacters[i - 1];
+			}
+		}
 		playerCharacters = tempArray;
 
-		rearrangeCharacterOrder();
+		RearrangeCharacterOrder();
 	}
 
-	private void rearrangeCharacterOrder()
+	public void RearrangeCharacterOrder()
 	{
-		playerCharacters[0].isCurrentlyControlled = true;
-		playerCharacters[1].isCurrentlyControlled = false;
-		playerCharacters[2].isCurrentlyControlled = false;
-		playerCharacters[0].followerOrder = 0;
-		playerCharacters[1].followerOrder = 15;
-		playerCharacters[2].followerOrder = 30;
+		int followOrder = 0;
+		for (int i = 0; i < playerCharacters.Count; i++)
+		{
+			if (i < 1)
+			{
+				playerCharacters[i].isCurrentlyControlled = true;
+			}
+			else
+			{
+				playerCharacters[i].isCurrentlyControlled = false;
+			}
+
+			followOrder += 15;
+			playerCharacters[i].followerOrder = followOrder;
+		}
+	}
+
+	public void MoveToPlantList(PlayerController playerController)
+	{
+		plantedCharacters.Add(playerController);
+		playerCharacters.Remove(playerController);
 	}
 }
