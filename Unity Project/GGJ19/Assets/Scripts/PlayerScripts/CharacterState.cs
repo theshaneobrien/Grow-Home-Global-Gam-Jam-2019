@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CharacterState : MonoBehaviour
 {
-	private int currentPlayer;
-	private int totalPlayers = 3;
+	[SerializeField]
+	List<PlayerController> tempArray;
 
 	[SerializeField]
 	private List<PlayerController> playerCharacters;
@@ -13,7 +13,8 @@ public class CharacterState : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		currentPlayer = 0;
+
+		Application.targetFrameRate = 60;
 	}
 
 	// Update is called once per frame
@@ -23,28 +24,42 @@ public class CharacterState : MonoBehaviour
 		{
 			GetNextCharacter();
 		}
+
+		if (Input.GetKeyDown(KeyCode.E))
+		{
+			GetLastCharacter();
+		}
 	}
 
 	private void GetNextCharacter()
 	{
+		tempArray = new List<PlayerController>(new PlayerController[3]);
+		tempArray[0] = playerCharacters[1];
+		tempArray[1] = playerCharacters[2];
+		tempArray[2] = playerCharacters[0];
+		playerCharacters = tempArray;
 
-		currentPlayer++;
-		if (currentPlayer >= 3)
-		{
-			currentPlayer = 0;
-		}
-		if (currentPlayer < 3)
-		{
-			foreach (PlayerController player in playerCharacters)
-			{
-				player.isCurrentlyControlled = false;
-			}
-			playerCharacters[currentPlayer].isCurrentlyControlled = true;
-		}
+		rearrangeCharacterOrder();
 	}
 
 	private void GetLastCharacter()
 	{
+		tempArray = new List<PlayerController>(new PlayerController[3]);
+		tempArray[0] = playerCharacters[2];
+		tempArray[1] = playerCharacters[0];
+		tempArray[2] = playerCharacters[1];
+		playerCharacters = tempArray;
 
+		rearrangeCharacterOrder();
+	}
+
+	private void rearrangeCharacterOrder()
+	{
+		playerCharacters[0].isCurrentlyControlled = true;
+		playerCharacters[1].isCurrentlyControlled = false;
+		playerCharacters[2].isCurrentlyControlled = false;
+		playerCharacters[0].followerOrder = 0;
+		playerCharacters[1].followerOrder = 15;
+		playerCharacters[2].followerOrder = 30;
 	}
 }

@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
 	private AudioSource playerAudio;
 
 	private List<string> controllerBuffer;
-
+	private int controllerBufferSize = 90;
 
 	// Use this for initialization
 	private void Start()
@@ -71,6 +71,7 @@ public class PlayerController : MonoBehaviour
 		}
 
 		frameCounter++;
+		ManageBuffer();
 	}
 
 	private void GetInputs()
@@ -80,9 +81,7 @@ public class PlayerController : MonoBehaviour
 			AddInputToBuffer("jump");
 			//Jump();
 		}
-
-		//If the left or right key is pressed and the shift key is not pressed
-		if (horizontalAxis > 0)
+		else if (horizontalAxis > 0)
 		{
 			AddInputToBuffer("walkRight");
 			//Walk();
@@ -98,8 +97,18 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+	public void ManageBuffer()
+	{
+		if (controllerBuffer.Count >= controllerBufferSize)
+		{
+			controllerBuffer.RemoveAt(0);
+		}
+	}
+
 	private void AddInputToBuffer(string input)
 	{
+
+		//ManageBuffer();
 		controllerBuffer.Add(input);
 	}
 
@@ -107,7 +116,8 @@ public class PlayerController : MonoBehaviour
 	{
 		if (controllerBuffer.Count > 0)
 		{
-			switch (controllerBuffer[(int)frameCounter])
+			Debug.Log("ControllerBuffer Length : " + controllerBuffer.Count);
+			switch (controllerBuffer[controllerBuffer.Count-1])
 			{
 				case "walkLeft":
 					Walk(-1f);
@@ -127,9 +137,9 @@ public class PlayerController : MonoBehaviour
 
 	private void ProcessInputsDelayed()
 	{
-		if (controllerBuffer.Count > followDelay + (followerOrder * 3))
+		if (controllerBuffer.Count > followDelay + followerOrder)
 		{
-			switch (controllerBuffer[frameCounter - (followerOrder*3)])
+			switch (controllerBuffer[controllerBuffer.Count - followerOrder])
 			{
 				case "walkLeft":
 					Walk(-1f);
@@ -164,7 +174,7 @@ public class PlayerController : MonoBehaviour
 		playerAnimator.SetFloat("Speed", currentSpeed);
 
 		//Flips the character sprite based on the last received input
-		transform.rotation = Quaternion.Euler(0, horizontalAxis > 0 ? 180 : 0, 0);
+		transform.rotation = Quaternion.Euler(0, direction > 0 ? 180 : 0, 0);
 	}
 
 	private void Jump()
