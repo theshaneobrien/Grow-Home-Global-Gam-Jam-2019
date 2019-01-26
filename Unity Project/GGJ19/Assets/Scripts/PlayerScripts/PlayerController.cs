@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	private float fallSpeed = -2f;
 
-	private int followDelay = 10;
+	private int followDelay = 30;
 	private int frameCounter = 0;
 	public int followerOrder = 0;
 
@@ -127,9 +127,9 @@ public class PlayerController : MonoBehaviour
 
 	private void ProcessInputsDelayed()
 	{
-		if (controllerBuffer.Count > followDelay)
+		if (controllerBuffer.Count > followDelay + (followerOrder * 3))
 		{
-			switch (controllerBuffer[frameCounter - followDelay])
+			switch (controllerBuffer[frameCounter - (followerOrder*3)])
 			{
 				case "walkLeft":
 					Walk(-1f);
@@ -169,7 +169,6 @@ public class PlayerController : MonoBehaviour
 
 	private void Jump()
 	{
-		Debug.Log("Jump");
 		if (isGrounded)
 		{
 			targetJump = jumpHeight;
