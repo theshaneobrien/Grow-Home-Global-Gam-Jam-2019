@@ -16,6 +16,8 @@ public class CharacterState : MonoBehaviour
 	{
 		plantedCharacters = new List<PlayerController>();
 		Application.targetFrameRate = 60;
+
+		SetNextCharacters();
 	}
 
 	// Update is called once per frame
@@ -25,11 +27,22 @@ public class CharacterState : MonoBehaviour
 		{
 			GetNextCharacter();
 		}
-
 		if (Input.GetKeyDown(KeyCode.E))
 		{
 			GetNextCharacter();
 		}
+	}
+
+	private void SetNextCharacters()
+	{
+		for (int i = 1; i < playerCharacters.Count; i++)
+		{
+			playerCharacters[i].nextCharacter = playerCharacters[i - 1].transform;
+		}
+
+		playerCharacters[0].nextCharacter = null;
+		playerCharacters[1].nextCharacter = playerCharacters[0].transform;
+		playerCharacters[2].nextCharacter = playerCharacters[1].transform;
 	}
 
 	public void GetLastCharacter()
@@ -49,6 +62,7 @@ public class CharacterState : MonoBehaviour
 		playerCharacters = tempArray;
 
 		RearrangeCharacterOrder();
+		SetNextCharacters();
 	}
 
 	public void GetNextCharacter()
@@ -68,6 +82,7 @@ public class CharacterState : MonoBehaviour
 		playerCharacters = tempArray;
 
 		RearrangeCharacterOrder();
+		SetNextCharacters();
 	}
 
 	public void RearrangeCharacterOrder()

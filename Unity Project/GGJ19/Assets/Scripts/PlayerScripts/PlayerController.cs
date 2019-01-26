@@ -42,6 +42,9 @@ public class PlayerController : MonoBehaviour
 	private List<string> controllerBuffer;
 	private int controllerBufferSize = 90;
 
+	private float distanceFromNextCharacter = 0;
+	public Transform nextCharacter;
+	private bool shouldFollow;
 
 	// Use this for initialization
 	private void Start()
@@ -77,8 +80,6 @@ public class PlayerController : MonoBehaviour
 				ProcessInputsDelayed();
 			}
 		}
-
-		//ManageBuffer();
 	}
 
 	private void GetInputs()
@@ -146,20 +147,27 @@ public class PlayerController : MonoBehaviour
 	{
 		if (controllerBuffer.Count > followDelay + followerOrder)
 		{
-			switch (controllerBuffer[controllerBuffer.Count - followerOrder])
+			if (shouldFollow)
 			{
-				case "walkLeft":
-					Walk(-1f);
-					break;
-				case "walkRight":
-					Walk(1f);
-					break;
-				case "jump":
-					Jump();
-					break;
-				case "idle":
-					Idle();
-					break;
+				switch (controllerBuffer[controllerBuffer.Count - followerOrder])
+				{
+					case "walkLeft":
+						Walk(-1f);
+						break;
+					case "walkRight":
+						Walk(1f);
+						break;
+					case "jump":
+						Jump();
+						break;
+					case "idle":
+						Idle();
+						break;
+				}
+			}
+			else
+			{
+				Idle();
 			}
 		}
 		if (controllerBuffer.Count >= controllerBufferSize)
@@ -221,11 +229,25 @@ public class PlayerController : MonoBehaviour
 			targetForce = new Vector2(targetSpeed, playerRigidbody.velocity.y + targetJump);
 			playerRigidbody.velocity = targetForce;
 			currentSpeed = Mathf.Abs(playerRigidbody.velocity.x);
+			CheckDistance();
 
 			//CLARE
 			//Set the "" to whatever you named the parameter in the Animator. It should be a Float
 			playerAnimator.SetFloat("Y Velocity", playerRigidbody.velocity.y);
 		}
+	}
+
+	private void CheckDistance()
+	{
+
+		distanceFromNextCharacter = Vector2.Distance(this.transform.position, (Vector2)nextCharacter?.position);
+
+		if (distanceFromNextCharacter < 2)
+		{
+			shouldFollow = false;
+		}
+
+		shouldFollow = true;
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
