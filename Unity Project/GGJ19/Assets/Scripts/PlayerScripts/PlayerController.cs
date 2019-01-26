@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
 	private AudioSource playerAudio;
 	private CircleCollider2D groundCollider;
 	private CharacterState parentController;
+	private SpriteRenderer playerSprite;
 
 	private List<string> controllerBuffer;
 	private int controllerBufferSize = 90;
@@ -49,6 +50,7 @@ public class PlayerController : MonoBehaviour
 	// Use this for initialization
 	private void Start()
 	{
+		playerSprite = this.gameObject.GetComponent<SpriteRenderer>();
 		parentController = this.gameObject.GetComponentInParent<CharacterState>();
 		groundCollider = this.gameObject.GetComponent<CircleCollider2D>();
 		controllerBuffer = new List<string>();
@@ -57,7 +59,6 @@ public class PlayerController : MonoBehaviour
 		playerAudio = this.gameObject.GetComponent<AudioSource>();
 	}
 
-	// Update is called once per frame
 	private void FixedUpdate()
 	{
 		horizontalAxis = Input.GetAxisRaw("Horizontal");
@@ -175,6 +176,10 @@ public class PlayerController : MonoBehaviour
 		{
 			controllerBuffer.RemoveAt(0);
 		}
+		//CLARE
+		//Set the "" to whatever you named the parameter in the Animator. It should be a Float
+		playerAnimator.SetFloat("Y Velocity", playerRigidbody.velocity.y);
+
 	}
 
 	private void Idle()
@@ -230,17 +235,15 @@ public class PlayerController : MonoBehaviour
 			targetForce = new Vector2(targetSpeed, playerRigidbody.velocity.y + targetJump);
 			playerRigidbody.velocity = targetForce;
 			currentSpeed = Mathf.Abs(playerRigidbody.velocity.x);
-
-			//CLARE
-			//Set the "" to whatever you named the parameter in the Animator. It should be a Float
-			playerAnimator.SetFloat("Y Velocity", playerRigidbody.velocity.y);
 		}
 	}
 
 	private void CheckDistance()
 	{
-
-		distanceFromNextCharacter = Vector2.Distance(this.transform.position, (Vector2)nextCharacter?.position);
+		if (nextCharacter != null)
+		{
+			distanceFromNextCharacter = Vector2.Distance(this.transform.position, (Vector2)nextCharacter.position);
+		}
 
 		if (distanceFromNextCharacter < 3f)
 		{
@@ -250,6 +253,11 @@ public class PlayerController : MonoBehaviour
 		{
 			shouldFollow = true;
 		}
+	}
+
+	private void SetMainCharacter()
+	{
+		
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)

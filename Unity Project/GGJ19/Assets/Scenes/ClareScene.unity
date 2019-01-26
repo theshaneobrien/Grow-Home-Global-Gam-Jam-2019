@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 451023674}
   - component: {fileID: 451023673}
   - component: {fileID: 451023676}
+  - component: {fileID: 451023677}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -210,6 +211,17 @@ MonoBehaviour:
   m_CropFrameX: 0
   m_CropFrameY: 0
   m_StretchFill: 0
+--- !u!114 &451023677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 451023672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbabe0183cf394243b919969523a0289, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1064971188
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,7 +344,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1912481084
+--- !u!1001 &1589569580
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -370,38 +382,6 @@ Prefab:
     - target: {fileID: 4419549962480448, guid: b9658e3ac22039943a17015efefcd398, type: 2}
       propertyPath: m_RootOrder
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1159332034463012, guid: b9658e3ac22039943a17015efefcd398, type: 2}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1581824168406038, guid: b9658e3ac22039943a17015efefcd398, type: 2}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1415271327648212, guid: b9658e3ac22039943a17015efefcd398, type: 2}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1437463149710900, guid: b9658e3ac22039943a17015efefcd398, type: 2}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1670537974433850, guid: b9658e3ac22039943a17015efefcd398, type: 2}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1127697251531100, guid: b9658e3ac22039943a17015efefcd398, type: 2}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1045158777451510, guid: b9658e3ac22039943a17015efefcd398, type: 2}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1016981342970238, guid: b9658e3ac22039943a17015efefcd398, type: 2}
-      propertyPath: m_Layer
-      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9658e3ac22039943a17015efefcd398, type: 2}
