@@ -47,6 +47,13 @@ public class PlayerController : MonoBehaviour
 	public Transform nextCharacter;
 	private bool shouldFollow;
 
+	[SerializeField]
+	private Transform topLeft;
+	[SerializeField]
+	private Transform bottomRight;
+	[SerializeField]
+	private LayerMask layer;
+
 	// Use this for initialization
 	private void Start()
 	{
@@ -61,6 +68,8 @@ public class PlayerController : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+
+		isGrounded = Physics2D.OverlapArea(topLeft.position, bottomRight.position, layer);
 		horizontalAxis = Input.GetAxisRaw("Horizontal");
 		absoluteHorizontalAxis = Mathf.Abs(horizontalAxis);
 
@@ -79,7 +88,7 @@ public class PlayerController : MonoBehaviour
 			}
 			else
 			{
-				ProcessInputsDelayed();
+				//ProcessInputsDelayed();
 			}
 		}
 	}
@@ -254,18 +263,10 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	private void SetMainCharacter()
-	{
-		
-	}
-
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
 		if (collision.gameObject.tag == "Ground")
 		{
-			Debug.Log("Collided with Tag: " + collision.gameObject.tag);
-			isGrounded = true;
-
 			//CLARE
 			//Set the "" to whatever you named the parameter in the Animator. It should be a Bool
 			playerAnimator.SetBool("Is Grounded", isGrounded);
@@ -278,10 +279,6 @@ public class PlayerController : MonoBehaviour
 	{
 		if (collision.gameObject.tag == "Ground")
 		{
-
-			Debug.Log("Exited Collision with Tag: " + collision.gameObject.tag);
-			isGrounded = false;
-
             //CLARE
             //Set the "" to whatever you named the parameter in the Animator. It should be a Bool
             playerAnimator.SetBool("Is Grounded", isGrounded);

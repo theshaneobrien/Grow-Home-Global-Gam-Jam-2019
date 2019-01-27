@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212315993817304972}
   - component: {fileID: 50240878424549404}
   - component: {fileID: 58558964032986544}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Square Rock 2 1
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1835719723203338}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.58, y: 8.526573, z: 0}
+  m_LocalPosition: {x: 11.58, y: -10.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
