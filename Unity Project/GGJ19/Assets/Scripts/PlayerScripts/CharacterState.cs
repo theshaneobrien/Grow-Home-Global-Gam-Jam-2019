@@ -203,6 +203,7 @@ public class CharacterState : MonoBehaviour
 		}
 
 		playerCharacters[0].playerAnimator.SetTrigger("Swap");
+		playerCharacters[0].playerAudio.PlayOneShot(playerCharacters[0].change);
 	}
 
 	public void MoveToPlantList(PlayerController playerController)

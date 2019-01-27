@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
 	public CharacterState parentController;
 	public Animator playerAnimator;
 	private Rigidbody2D playerRigidbody;
-	private AudioSource playerAudio;
+	public AudioSource playerAudio;
 	private CircleCollider2D groundCollider;
 	private SpriteRenderer playerSprite;
 
@@ -64,6 +64,19 @@ public class PlayerController : MonoBehaviour
 	private Transform bottomRight;
 	[SerializeField]
 	private LayerMask layer;
+
+	public List<AudioClip> walk;
+	public AudioClip change;
+	public AudioClip hurt1;
+	public AudioClip hurt2;
+	public AudioClip shrink;
+	public AudioClip grow;
+	public AudioClip charThud;
+
+	public AudioClip jump;
+
+	private float timeBetweenSteps = 0.2f;
+	private float timeSinceLastStep = 0;
 
 	// Use this for initialization
 	private void Start()
@@ -103,6 +116,22 @@ public class PlayerController : MonoBehaviour
 		else
 		{
 			//ProcessInputsDelayed();
+		}
+
+		if (isGrounded && Mathf.Abs(playerRigidbody.velocity.x) > 0.01f)
+		{
+			timeSinceLastStep += Time.deltaTime;
+			int stepNumber = 0;
+			if (timeSinceLastStep > timeBetweenSteps)
+			{
+				stepNumber++;
+				if (stepNumber > 1)
+				{
+					stepNumber = 0;
+				}
+				playerAudio.PlayOneShot(walk[stepNumber],0.2f);
+				timeSinceLastStep = 0;
+			}
 		}
 	}
 
@@ -235,6 +264,8 @@ public class PlayerController : MonoBehaviour
 		if (isGrounded)
 		{
 			targetJump = jumpHeight;
+
+			playerAudio.PlayOneShot(jump, 0.5f);
 		}
 		else
 		{
@@ -244,7 +275,6 @@ public class PlayerController : MonoBehaviour
 				{
 					targetJump = doubleJumpStrength;
 
-					
 					hasDoubleJumped = true;
 				}
 			}
@@ -262,7 +292,7 @@ public class PlayerController : MonoBehaviour
 				groundCollider.enabled = false;
 				hasGrown = true;
 			}
-
+			playerAudio.PlayOneShot(grow);
 			playerAnimator.SetBool("hasGrown", hasGrown);
 		}
 	}
@@ -277,6 +307,7 @@ public class PlayerController : MonoBehaviour
 		}
 		hasGrown = false;
 
+		playerAudio.PlayOneShot(shrink);
 		playerAnimator.SetBool("hasGrown", hasGrown);
 	}
 
@@ -285,14 +316,17 @@ public class PlayerController : MonoBehaviour
 		if (gameObject.name == "Sprout")
 		{
 			parentController.sproutSaved = true;
+			playerRigidbody.simulated = false;
 		}
 		else if (gameObject.name == "Ray")
 		{
 			parentController.raySaved = true;
+			playerRigidbody.simulated = false;
 		}
 		else
 		{
 			parentController.spruceSaved = true;
+			playerRigidbody.simulated = false;
 		}
 
 		parentController.CheckWin();
@@ -317,9 +351,9 @@ public class PlayerController : MonoBehaviour
 			targetForce = new Vector2(targetSpeed, playerRigidbody.velocity.y + targetJump);
 			playerRigidbody.velocity = targetForce;
 		}
-		if (targetJump != 0)
+		if (targetJump != -2)
 		{
-			targetJump = 0;
+			targetJump = -2;
 		}
 	}
 
@@ -351,6 +385,11 @@ public class PlayerController : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
+		if (collision.relativeVelocity.y > 6)
+		{
+			playerAudio.PlayOneShot(charThud, 0.5f);
+			playerAudio.PlayOneShot(hurt2,0.5f);
+		}
 		if (collision.gameObject.tag == "Ground")
 		{
 			//CLARE

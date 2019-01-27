@@ -635,7 +635,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1234604096140316}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9, y: 3.29, z: 0}
+  m_LocalPosition: {x: -9.29, y: -22.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4049548706163488}
@@ -1719,8 +1719,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3ee116d7b56dc94d813d66db57b1e04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 4
-  jumpHeight: 8
+  walkSpeed: 6
+  jumpHeight: 25
   fallSpeed: 0
   followerOrder: 45
   isCurrentlyControlled: 0
@@ -1733,12 +1733,23 @@ MonoBehaviour:
   onSpruce: 0
   parentController: {fileID: 0}
   playerAnimator: {fileID: 0}
+  playerAudio: {fileID: 0}
   nextCharacter: {fileID: 0}
   topLeft: {fileID: 4713562041846624}
   bottomRight: {fileID: 4121883876521632}
   layer:
     serializedVersion: 2
     m_Bits: 512
+  walk:
+  - {fileID: 8300000, guid: 1837197223b5db54699fa90e5c877af9, type: 3}
+  - {fileID: 8300000, guid: ae7b464e166c9fd4095881c306acf20d, type: 3}
+  change: {fileID: 8300000, guid: f8dcf5bcce05e7147ac15a391738f85c, type: 3}
+  hurt1: {fileID: 8300000, guid: f9a94a8ee505c4c418f0830f320f42d2, type: 3}
+  hurt2: {fileID: 8300000, guid: 721576e8580a69e4d9e325d025cac54a, type: 3}
+  shrink: {fileID: 8300000, guid: a2ba2bbbb136aa94a95c31474fb93a07, type: 3}
+  grow: {fileID: 8300000, guid: 81f8c117237de3d4b8b8c0f9f23a6423, type: 3}
+  charThud: {fileID: 8300000, guid: c0912b82cbef8d34bb37625a101114c9, type: 3}
+  jump: {fileID: 8300000, guid: 80d5991168497fe4b8ec88c13ffd9123, type: 3}
 --- !u!114 &114195637885536636
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1750,8 +1761,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3ee116d7b56dc94d813d66db57b1e04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 4
-  jumpHeight: 8
+  walkSpeed: 6
+  jumpHeight: 25
   fallSpeed: 0
   followerOrder: 1
   isCurrentlyControlled: 1
@@ -1764,12 +1775,23 @@ MonoBehaviour:
   onSpruce: 0
   parentController: {fileID: 0}
   playerAnimator: {fileID: 0}
+  playerAudio: {fileID: 0}
   nextCharacter: {fileID: 0}
   topLeft: {fileID: 4776728962399244}
   bottomRight: {fileID: 4064167591847598}
   layer:
     serializedVersion: 2
     m_Bits: 512
+  walk:
+  - {fileID: 8300000, guid: 1837197223b5db54699fa90e5c877af9, type: 3}
+  - {fileID: 8300000, guid: ae7b464e166c9fd4095881c306acf20d, type: 3}
+  change: {fileID: 8300000, guid: f8dcf5bcce05e7147ac15a391738f85c, type: 3}
+  hurt1: {fileID: 8300000, guid: f9a94a8ee505c4c418f0830f320f42d2, type: 3}
+  hurt2: {fileID: 8300000, guid: 721576e8580a69e4d9e325d025cac54a, type: 3}
+  shrink: {fileID: 8300000, guid: a2ba2bbbb136aa94a95c31474fb93a07, type: 3}
+  grow: {fileID: 8300000, guid: 81f8c117237de3d4b8b8c0f9f23a6423, type: 3}
+  charThud: {fileID: 8300000, guid: c0912b82cbef8d34bb37625a101114c9, type: 3}
+  jump: {fileID: 8300000, guid: 80d5991168497fe4b8ec88c13ffd9123, type: 3}
 --- !u!114 &114873364229621788
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1781,8 +1803,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3ee116d7b56dc94d813d66db57b1e04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 4
-  jumpHeight: 8
+  walkSpeed: 6
+  jumpHeight: 25
   fallSpeed: 0
   followerOrder: 30
   isCurrentlyControlled: 0
@@ -1795,12 +1817,23 @@ MonoBehaviour:
   onSpruce: 0
   parentController: {fileID: 0}
   playerAnimator: {fileID: 0}
+  playerAudio: {fileID: 0}
   nextCharacter: {fileID: 0}
   topLeft: {fileID: 4919763536947124}
   bottomRight: {fileID: 4330822933734014}
   layer:
     serializedVersion: 2
     m_Bits: 512
+  walk:
+  - {fileID: 8300000, guid: 1837197223b5db54699fa90e5c877af9, type: 3}
+  - {fileID: 8300000, guid: ae7b464e166c9fd4095881c306acf20d, type: 3}
+  change: {fileID: 8300000, guid: f8dcf5bcce05e7147ac15a391738f85c, type: 3}
+  hurt1: {fileID: 8300000, guid: f9a94a8ee505c4c418f0830f320f42d2, type: 3}
+  hurt2: {fileID: 8300000, guid: 721576e8580a69e4d9e325d025cac54a, type: 3}
+  shrink: {fileID: 8300000, guid: a2ba2bbbb136aa94a95c31474fb93a07, type: 3}
+  grow: {fileID: 8300000, guid: 81f8c117237de3d4b8b8c0f9f23a6423, type: 3}
+  charThud: {fileID: 8300000, guid: c0912b82cbef8d34bb37625a101114c9, type: 3}
+  jump: {fileID: 8300000, guid: 80d5991168497fe4b8ec88c13ffd9123, type: 3}
 --- !u!114 &114965917078999980
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1821,7 +1854,7 @@ MonoBehaviour:
   rayName: 'Selected Character: Ray'
   spruceName: 'Selected Character: Spruce'
   sproutDescription: 'Special Ability: Double Jump, Small'
-  rayDescription: 'Special Ability: Grow Tall, Ladder'
+  rayDescription: 'Special Ability: CTRL: Grow Tall, Ladder'
   spruceDescription: 'Special Ability: None'
   characterName: {fileID: 0}
   characterDescription: {fileID: 0}
