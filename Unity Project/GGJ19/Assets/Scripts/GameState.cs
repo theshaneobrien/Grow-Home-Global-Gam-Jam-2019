@@ -9,6 +9,14 @@ public class GameState : MonoBehaviour {
 
 	private int currentLevel = 0;
 
+	private AudioSource musicPlayer;
+
+	public AudioClip menuSong;
+	public AudioClip levelSong;
+	public AudioClip endLevelSong;
+
+	public bool safeToChangeMusic = false;
+
 	private void Awake()
 	{
 		if (Instance == null)
@@ -19,21 +27,33 @@ public class GameState : MonoBehaviour {
 		{
 			Destroy(this);
 		}
+		DontDestroyOnLoad(this);
 	}
 
 
 	void Start () {
-		
+		musicPlayer = this.GetComponent<AudioSource>();
 	}
 	
 
 	void Update () {
-		
+		if (safeToChangeMusic)
+		{
+			musicPlayer.PlayOneShot(levelSong);
+		}
 	}
 
 	public void LoadNextLevel()
 	{
+		musicPlayer.Stop();
 		currentLevel++;
+		SceneManager.LoadScene(currentLevel);
+		musicPlayer.clip = levelSong;
+		musicPlayer.Play();
+	}
+
+	public void ResetLevel()
+	{
 		SceneManager.LoadScene(currentLevel);
 	}
 

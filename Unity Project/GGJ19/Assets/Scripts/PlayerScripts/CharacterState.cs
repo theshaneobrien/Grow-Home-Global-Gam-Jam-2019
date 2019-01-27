@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterState : MonoBehaviour
 {
@@ -14,6 +15,20 @@ public class CharacterState : MonoBehaviour
 	[SerializeField]
 	private List<PlayerController> playerCharacters;
 	private List<PlayerController> plantedCharacters;
+
+	public string sproutName;
+	public string rayName;
+	public string spruceName;
+	public string sproutDescription;
+	public string rayDescription;
+	public string spruceDescription;
+	public Text characterName;
+
+	public Text characterDescription;
+
+	public GameObject health1;
+	public GameObject health2;
+	public GameObject health3;
 
 	// Use this for initialization
 	void Start()
@@ -48,9 +63,33 @@ public class CharacterState : MonoBehaviour
 	public void TakeDamage()
 	{
 		currentPlayerHealth--;
-		if (currentPlayerHealth < 0)
+		if (currentPlayerHealth <= 0)
 		{
-			//GameState.RetryLevel
+				health1.SetActive(false);
+				health2.SetActive(false);
+				health3.SetActive(false);
+
+			GameState.Instance.ResetLevel();
+		}
+
+		if (currentPlayerHealth == 3)
+		{
+			health1.SetActive(true);
+			health2.SetActive(true);
+			health3.SetActive(true);
+		}
+
+		if (currentPlayerHealth == 2)
+		{
+			health1.SetActive(true);
+			health2.SetActive(true);
+			health3.SetActive(false);
+		}
+		if (currentPlayerHealth == 1)
+		{
+			health1.SetActive(true);
+			health2.SetActive(false);
+			health3.SetActive(false);
 		}
 
 		//Make invincible for a second?
@@ -84,7 +123,7 @@ public class CharacterState : MonoBehaviour
 		}
 		playerCharacters = tempArray;
 
-		//RearrangeCharacterOrder();
+		RearrangeCharacterOrder();
 		//SetNextCharacters();
 	}
 
@@ -124,6 +163,21 @@ public class CharacterState : MonoBehaviour
 
 			followOrder += 15;
 			playerCharacters[i].followerOrder = followOrder;
+		}
+		if (playerCharacters[0].gameObject.name == "Sprout")
+		{
+			characterName.text = sproutName;
+			characterDescription.text = sproutDescription;
+		}
+		else if (playerCharacters[0].gameObject.name == "Ray")
+		{
+			characterName.text = rayName;
+			characterDescription.text = rayDescription;
+		}
+		else
+		{
+			characterName.text = spruceName;
+			characterDescription.text = spruceDescription;
 		}
 	}
 
