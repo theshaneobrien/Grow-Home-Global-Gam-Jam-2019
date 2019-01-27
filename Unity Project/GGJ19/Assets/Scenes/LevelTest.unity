@@ -905,6 +905,11 @@ Prefab:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 212433289660561520, guid: 751caf177c7449e4b931ea90d7377707,
+        type: 2}
+      propertyPath: m_SortingOrder
+      value: -2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 751caf177c7449e4b931ea90d7377707, type: 2}
   m_IsPrefabAsset: 0
@@ -1005,14 +1010,14 @@ MonoBehaviour:
   m_PixelSnapping: 0
   m_CropFrameX: 1
   m_CropFrameY: 1
-  m_StretchFill: 0
+  m_StretchFill: 1
 --- !u!114 &451023677
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 451023672}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbabe0183cf394243b919969523a0289, type: 3}
   m_Name: 
@@ -2498,6 +2503,11 @@ Prefab:
     - target: {fileID: 1234604096140316, guid: b9658e3ac22039943a17015efefcd398, type: 2}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114965917078999980, guid: b9658e3ac22039943a17015efefcd398,
+        type: 2}
+      propertyPath: rayDescription
+      value: 'Special Ability: CTRL: Grow Tall, Ladder'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9658e3ac22039943a17015efefcd398, type: 2}
