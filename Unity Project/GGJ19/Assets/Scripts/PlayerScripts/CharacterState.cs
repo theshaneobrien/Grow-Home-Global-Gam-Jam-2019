@@ -21,7 +21,7 @@ public class CharacterState : MonoBehaviour
 		plantedCharacters = new List<PlayerController>();
 		Application.targetFrameRate = 60;
 
-		SetNextCharacters();
+		//SetNextCharacters();
 	}
 
 	// Update is called once per frame
@@ -84,8 +84,8 @@ public class CharacterState : MonoBehaviour
 		}
 		playerCharacters = tempArray;
 
-		RearrangeCharacterOrder();
-		SetNextCharacters();
+		//RearrangeCharacterOrder();
+		//SetNextCharacters();
 	}
 
 	public void GetNextCharacter()
@@ -105,7 +105,7 @@ public class CharacterState : MonoBehaviour
 		playerCharacters = tempArray;
 
 		RearrangeCharacterOrder();
-		SetNextCharacters();
+		//SetNextCharacters();
 	}
 
 	public void RearrangeCharacterOrder()

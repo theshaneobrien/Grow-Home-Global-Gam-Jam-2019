@@ -31,6 +31,15 @@ public class PlayerController : MonoBehaviour
 	public bool isCurrentlyControlled;
 	public bool isControllable = true;
 
+	//Sprout
+	public bool canDoubleJump = false;
+	public bool hasDoubleJumped = false;
+	public float doubleJumpStrength = 1.2f;
+
+	//Ray
+	public bool canGrow = false;
+	public bool hasGrown = false;
+
 	private Vector2 targetForce;
 
 	public CharacterState parentController;
@@ -79,17 +88,14 @@ public class PlayerController : MonoBehaviour
 	private void Update()
 	{
 		CheckDistance();
-		if (isControllable)
+		GetInputs();
+		if (isCurrentlyControlled)
 		{
-			GetInputs();
-			if (isCurrentlyControlled)
-			{
-				ProcessInputs();
-			}
-			else
-			{
-				//ProcessInputsDelayed();
-			}
+			ProcessInputs();
+		}
+		else
+		{
+			//ProcessInputsDelayed();
 		}
 	}
 
@@ -101,7 +107,14 @@ public class PlayerController : MonoBehaviour
 		}
 		if (Input.GetKeyDown(KeyCode.LeftControl))
 		{
-			Plant();
+			if (hasGrown)
+			{
+				UnPlant();
+			}
+			else
+			{
+				Plant();
+			}
 		}
 		else if (horizontalAxis > 0)
 		{
@@ -216,33 +229,74 @@ public class PlayerController : MonoBehaviour
 		{
 			targetJump = jumpHeight;
 		}
+		else
+		{
+			if (canDoubleJump)
+			{
+				if (!hasDoubleJumped)
+				{
+					targetJump = doubleJumpStrength;
+					hasDoubleJumped = true;
+				}
+			}
+		}
 	}
 
 	private void Plant()
 	{
-		if (isGrounded && isCurrentlyControlled)
+		if (isGrounded && canGrow && isCurrentlyControlled)
 		{
-			targetSpeed = 0;
-			isControllable = false;
-			groundCollider.enabled = false;
-			parentController.GetLastCharacter();
-			parentController.MoveToPlantList(this);
-			//CLARE
-			//Set the "" to whatever you named the parameter in the Animator. It should be a Bool
-			playerAnimator.SetBool("", isControllable);
+			if (!hasGrown)
+			{
+				targetSpeed = 0;
+				isControllable = false;
+				groundCollider.enabled = false;
+				//parentController.GetLastCharacter();
+				//parentController.MoveToPlantList(this);
+				//CLARE
+				//Set the "" to whatever you named the parameter in the Animator. It should be a Bool
 
-			//Activate Ability
+				//Activate Ability
+				hasGrown = true;
+			}
 
+			playerAnimator.SetBool("hasGrown", hasGrown);
 		}
+	}
+
+	private void UnPlant()
+	{
+		if (canGrow && hasGrown && isCurrentlyControlled)
+		{
+			isControllable = true;
+			playerRigidbody.AddForce(new Vector2(0, 5));
+			groundCollider.enabled = true;
+		}
+		hasGrown = false;
+
+		playerAnimator.SetBool("hasGrown", hasGrown);
 	}
 
 	private void TranslatePlayer()
 	{
-		if (isControllable)
+		if (isCurrentlyControlled)
 		{
+			if (isControllable)
+			{
+				targetForce = new Vector2(targetSpeed, playerRigidbody.velocity.y + targetJump);
+				playerRigidbody.velocity = targetForce;
+				currentSpeed = Mathf.Abs(playerRigidbody.velocity.x);
+			}
+		}
+		else
+		{
+			targetSpeed = 0;
 			targetForce = new Vector2(targetSpeed, playerRigidbody.velocity.y + targetJump);
 			playerRigidbody.velocity = targetForce;
-			currentSpeed = Mathf.Abs(playerRigidbody.velocity.x);
+		}
+		if (targetJump != 0)
+		{
+			targetJump = 0;
 		}
 	}
 
@@ -270,8 +324,8 @@ public class PlayerController : MonoBehaviour
 			//CLARE
 			//Set the "" to whatever you named the parameter in the Animator. It should be a Bool
 			playerAnimator.SetBool("Is Grounded", isGrounded);
-			targetJump = 0;
-			Debug.Log("Hit Ground");
+			//targetJump = 0;
+			hasDoubleJumped = false;
 		}
 	}
 
