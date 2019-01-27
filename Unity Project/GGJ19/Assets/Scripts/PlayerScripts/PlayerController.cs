@@ -40,10 +40,12 @@ public class PlayerController : MonoBehaviour
 	public bool canGrow = false;
 	public bool hasGrown = false;
 
+	public bool onSpruce = false;
+
 	private Vector2 targetForce;
 
 	public CharacterState parentController;
-	private Animator playerAnimator;
+	public Animator playerAnimator;
 	private Rigidbody2D playerRigidbody;
 	private AudioSource playerAudio;
 	private CircleCollider2D groundCollider;
@@ -83,6 +85,11 @@ public class PlayerController : MonoBehaviour
 		absoluteHorizontalAxis = Mathf.Abs(horizontalAxis);
 
 		TranslatePlayer();
+
+		if (this.gameObject.name == "Sprout" && Vector3.Distance(this.transform.position, GameObject.Find("Spruce").transform.position) > 3f)
+		{
+			onSpruce = false;
+		}
 	}
 
 	private void Update()
@@ -164,6 +171,9 @@ public class PlayerController : MonoBehaviour
 		{
 			controllerBuffer.RemoveAt(0);
 		}
+		//CLARE
+		//Set the "" to whatever you named the parameter in the Animator. It should be a Float
+		playerAnimator.SetFloat("Y Velocity", playerRigidbody.velocity.y);
 	}
 
 	private void ProcessInputsDelayed()
@@ -197,9 +207,6 @@ public class PlayerController : MonoBehaviour
 		{
 			controllerBuffer.RemoveAt(0);
 		}
-		//CLARE
-		//Set the "" to whatever you named the parameter in the Animator. It should be a Float
-		playerAnimator.SetFloat("Y Velocity", playerRigidbody.velocity.y);
 
 	}
 
@@ -236,6 +243,8 @@ public class PlayerController : MonoBehaviour
 				if (!hasDoubleJumped)
 				{
 					targetJump = doubleJumpStrength;
+
+					
 					hasDoubleJumped = true;
 				}
 			}
@@ -251,12 +260,6 @@ public class PlayerController : MonoBehaviour
 				targetSpeed = 0;
 				isControllable = false;
 				groundCollider.enabled = false;
-				//parentController.GetLastCharacter();
-				//parentController.MoveToPlantList(this);
-				//CLARE
-				//Set the "" to whatever you named the parameter in the Animator. It should be a Bool
-
-				//Activate Ability
 				hasGrown = true;
 			}
 
@@ -275,6 +278,26 @@ public class PlayerController : MonoBehaviour
 		hasGrown = false;
 
 		playerAnimator.SetBool("hasGrown", hasGrown);
+	}
+
+	public void SaveOneChar()
+	{
+		if (gameObject.name == "Sprout")
+		{
+			parentController.sproutSaved = true;
+		}
+		else if (gameObject.name == "Ray")
+		{
+			parentController.raySaved = true;
+		}
+		else
+		{
+			parentController.spruceSaved = true;
+		}
+
+		parentController.CheckWin();
+		parentController.GetNextCharacter();
+		this.enabled = false;
 	}
 
 	private void TranslatePlayer()
@@ -317,6 +340,15 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+	public void SwitchBackToSprout()
+	{
+		if (onSpruce)
+		{
+			transform.SetParent(parentController.transform);
+			playerRigidbody.simulated = true;
+		}
+	}
+
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
 		if (collision.gameObject.tag == "Ground")
@@ -326,6 +358,19 @@ public class PlayerController : MonoBehaviour
 			playerAnimator.SetBool("Is Grounded", isGrounded);
 			//targetJump = 0;
 			hasDoubleJumped = false;
+		}
+
+		if (collision.gameObject.name == "Spruce" && !onSpruce)
+		{
+			if (this.gameObject.name == "Sprout" && !onSpruce)
+			{
+				transform.SetParent(collision.gameObject.transform);
+
+				Debug.Log("On Spruce");
+				playerRigidbody.simulated = false;
+				onSpruce = true;
+				parentController.GetNextCharacter();
+			}
 		}
 	}
 
@@ -337,6 +382,15 @@ public class PlayerController : MonoBehaviour
             //Set the "" to whatever you named the parameter in the Animator. It should be a Bool
             playerAnimator.SetBool("Is Grounded", isGrounded);
 			targetJump = fallSpeed;
+		}
+
+		if (collision.gameObject.name == "Spruce")
+		{
+			if (this.gameObject.name != "Spruce")
+			{
+				Debug.Log("Off Spruce");
+				
+			}
 		}
 	}
 }

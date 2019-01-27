@@ -15,6 +15,11 @@ public class GameState : MonoBehaviour {
 	public AudioClip levelSong;
 	public AudioClip endLevelSong;
 
+	private Canvas stateCanvas;
+
+	public GameObject gameOverPanel;
+	public GameObject winPanel;
+
 	public bool safeToChangeMusic = false;
 
 	private void Awake()
@@ -33,6 +38,7 @@ public class GameState : MonoBehaviour {
 
 	void Start () {
 		musicPlayer = this.GetComponent<AudioSource>();
+		stateCanvas = this.GetComponentInChildren<Canvas>();
 	}
 	
 
@@ -41,10 +47,18 @@ public class GameState : MonoBehaviour {
 		{
 			musicPlayer.PlayOneShot(levelSong);
 		}
+
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			ResetLevel();
+		}
 	}
 
 	public void LoadNextLevel()
 	{
+
+		gameOverPanel.SetActive(false);
+		winPanel.SetActive(false);
 		musicPlayer.Stop();
 		currentLevel++;
 		SceneManager.LoadScene(currentLevel);
@@ -54,7 +68,32 @@ public class GameState : MonoBehaviour {
 
 	public void ResetLevel()
 	{
+		gameOverPanel.SetActive(false);
+		winPanel.SetActive(false);
 		SceneManager.LoadScene(currentLevel);
+	}
+
+	public void LoadMainMenu()
+	{
+		gameOverPanel.SetActive(false);
+		winPanel.SetActive(false);
+		currentLevel = 0;
+		SceneManager.LoadScene(currentLevel);
+	}
+
+	public void SetUpCamera()
+	{
+		stateCanvas.worldCamera = Camera.main;
+	}
+
+	public void ShowGameOver()
+	{
+		gameOverPanel.SetActive(true);
+	}
+
+	public void ShowWinScreen()
+	{
+		winPanel.SetActive(true);
 	}
 
 	private void OnDestroy()

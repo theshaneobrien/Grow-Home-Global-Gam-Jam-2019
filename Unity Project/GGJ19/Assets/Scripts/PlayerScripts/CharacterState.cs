@@ -30,13 +30,20 @@ public class CharacterState : MonoBehaviour
 	public GameObject health2;
 	public GameObject health3;
 
+	public bool sproutSaved;
+	public bool raySaved;
+	public bool spruceSaved;
+
 	// Use this for initialization
 	void Start()
 	{
 		plantedCharacters = new List<PlayerController>();
 		Application.targetFrameRate = 60;
 
-		//SetNextCharacters();
+		if (GameState.Instance != null)
+		{
+			GameState.Instance.SetUpCamera();
+		}
 	}
 
 	// Update is called once per frame
@@ -69,7 +76,15 @@ public class CharacterState : MonoBehaviour
 				health2.SetActive(false);
 				health3.SetActive(false);
 
-			GameState.Instance.ResetLevel();
+			GameState.Instance.ShowGameOver();
+
+			playerCharacters[0].playerAnimator.SetTrigger("Dead");
+			playerCharacters[1].playerAnimator.SetTrigger("Dead");
+			playerCharacters[2].playerAnimator.SetTrigger("Dead");
+
+			playerCharacters[0].enabled = false;
+			playerCharacters[1].enabled = false;
+			playerCharacters[2].enabled = false;
 		}
 
 		if (currentPlayerHealth == 3)
@@ -91,8 +106,6 @@ public class CharacterState : MonoBehaviour
 			health2.SetActive(false);
 			health3.SetActive(false);
 		}
-
-		//Make invincible for a second?
 	}
 
 	private void SetNextCharacters()
@@ -125,6 +138,14 @@ public class CharacterState : MonoBehaviour
 
 		RearrangeCharacterOrder();
 		//SetNextCharacters();
+	}
+
+	public void CheckWin()
+	{
+		if (sproutSaved && raySaved && spruceSaved)
+		{
+			GameState.Instance.ShowWinScreen();
+		}
 	}
 
 	public void GetNextCharacter()
@@ -168,6 +189,7 @@ public class CharacterState : MonoBehaviour
 		{
 			characterName.text = sproutName;
 			characterDescription.text = sproutDescription;
+			playerCharacters[0].SwitchBackToSprout();
 		}
 		else if (playerCharacters[0].gameObject.name == "Ray")
 		{
@@ -179,6 +201,8 @@ public class CharacterState : MonoBehaviour
 			characterName.text = spruceName;
 			characterDescription.text = spruceDescription;
 		}
+
+		playerCharacters[0].playerAnimator.SetTrigger("Swap");
 	}
 
 	public void MoveToPlantList(PlayerController playerController)
