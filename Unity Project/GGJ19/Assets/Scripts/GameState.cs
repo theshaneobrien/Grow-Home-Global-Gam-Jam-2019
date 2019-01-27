@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameState : MonoBehaviour {
 
 	static public GameState Instance { get; private set; }
+
+	private int currentLevel = 0;
 
 	private void Awake()
 	{
@@ -26,6 +29,12 @@ public class GameState : MonoBehaviour {
 
 	void Update () {
 		
+	}
+
+	public void LoadNextLevel()
+	{
+		currentLevel++;
+		SceneManager.LoadScene(currentLevel);
 	}
 
 	private void OnDestroy()
