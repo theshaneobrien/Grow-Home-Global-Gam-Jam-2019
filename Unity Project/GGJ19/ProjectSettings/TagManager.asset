@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Level
+  - Character
   layers:
   - Default
   - TransparentFX
@@ -43,6 +44,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 1365551053
+    locked: 0
+  - name: Decoration Background
+    uniqueID: 1421633137
+    locked: 0
   - name: PlayerBackground
     uniqueID: 2552064317
     locked: 0
@@ -51,6 +58,15 @@ TagManager:
     locked: 0
   - name: PlayerForeground
     uniqueID: 100543427
+    locked: 0
+  - name: Obstacles
+    uniqueID: 3098108751
+    locked: 0
+  - name: DecorationForeground
+    uniqueID: 2545002391
+    locked: 0
+  - name: Terrain
+    uniqueID: 3291322811
     locked: 0
   - name: TopLayerOfGround
     uniqueID: 2175315093

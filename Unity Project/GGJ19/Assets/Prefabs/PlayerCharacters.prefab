@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 61085199089168898}
   m_Layer: 8
   m_Name: Sprout
-  m_TagString: Untagged
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 61139234114677746}
   m_Layer: 8
   m_Name: Spruce
-  m_TagString: Untagged
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 61830786056857558}
   m_Layer: 8
   m_Name: Ray
-  m_TagString: Untagged
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -415,7 +415,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.33}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -426,7 +426,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.51, y: 1.82}
+  m_Size: {x: 1.51, y: 1.13}
   m_EdgeRadius: 0
 --- !u!61 &61139234114677746
 BoxCollider2D:
@@ -834,6 +834,7 @@ MonoBehaviour:
   followerOrder: 45
   isCurrentlyControlled: 0
   isControllable: 1
+  parentController: {fileID: 0}
   nextCharacter: {fileID: 0}
 --- !u!114 &114195637885536636
 MonoBehaviour:
@@ -847,11 +848,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 4
-  jumpHeight: 13
+  jumpHeight: 14
   fallSpeed: -2
   followerOrder: 1
   isCurrentlyControlled: 1
   isControllable: 1
+  parentController: {fileID: 0}
   nextCharacter: {fileID: 0}
 --- !u!114 &114873364229621788
 MonoBehaviour:
@@ -870,6 +872,7 @@ MonoBehaviour:
   followerOrder: 30
   isCurrentlyControlled: 0
   isControllable: 1
+  parentController: {fileID: 0}
   nextCharacter: {fileID: 0}
 --- !u!114 &114965917078999980
 MonoBehaviour:

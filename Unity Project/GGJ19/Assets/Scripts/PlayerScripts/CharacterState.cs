@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class CharacterState : MonoBehaviour
 {
+
+	private int maxPlayerHealth = 3;
+	private int currentPlayerHealth = 3;
+
 	[SerializeField]
 	List<PlayerController> tempArray;
 
@@ -31,6 +35,25 @@ public class CharacterState : MonoBehaviour
 		{
 			GetNextCharacter();
 		}
+	}
+
+	public void HealDamage()
+	{
+		if (currentPlayerHealth < maxPlayerHealth)
+		{
+			currentPlayerHealth++;
+		}
+	}
+
+	public void TakeDamage()
+	{
+		currentPlayerHealth--;
+		if (currentPlayerHealth < 0)
+		{
+			//GameState.RetryLevel
+		}
+
+		//Make invincible for a second?
 	}
 
 	private void SetNextCharacters()

@@ -33,11 +33,11 @@ public class PlayerController : MonoBehaviour
 
 	private Vector2 targetForce;
 
+	public CharacterState parentController;
 	private Animator playerAnimator;
 	private Rigidbody2D playerRigidbody;
 	private AudioSource playerAudio;
 	private CircleCollider2D groundCollider;
-	private CharacterState parentController;
 	private SpriteRenderer playerSprite;
 
 	private List<string> controllerBuffer;
@@ -110,7 +110,6 @@ public class PlayerController : MonoBehaviour
 
 	private void AddInputToBuffer(string input)
 	{
-
 		controllerBuffer.Add(input);
 		if (controllerBuffer.Count >= controllerBufferSize)
 		{
@@ -264,6 +263,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (collision.gameObject.tag == "Ground")
 		{
+			Debug.Log("Collided with Tag: " + collision.gameObject.tag);
 			isGrounded = true;
 
 			//CLARE
@@ -276,10 +276,11 @@ public class PlayerController : MonoBehaviour
 
 	private void OnCollisionExit2D(Collision2D collision)
 	{
-		Debug.Log("Test");
 		if (collision.gameObject.tag == "Ground")
 		{
-            isGrounded = false;
+
+			Debug.Log("Exited Collision with Tag: " + collision.gameObject.tag);
+			isGrounded = false;
 
             //CLARE
             //Set the "" to whatever you named the parameter in the Animator. It should be a Bool
