@@ -403,12 +403,12 @@ public class PlayerController : MonoBehaviour
 		{
 			if (this.gameObject.name == "Sprout" && !onSpruce)
 			{
-				transform.SetParent(collision.gameObject.transform);
+				//transform.SetParent(collision.gameObject.transform);
 
-				Debug.Log("On Spruce");
-				playerRigidbody.simulated = false;
-				onSpruce = true;
-				parentController.GetNextCharacter();
+				//Debug.Log("On Spruce");
+				//playerRigidbody.simulated = false;
+				//onSpruce = true;
+				//parentController.GetNextCharacter();
 			}
 		}
 	}
